@@ -9,4 +9,6 @@ RUN pip install -r requirements.txt
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
 
-CMD ["-dp", "5000:5000", "flaskcontainer", "flask", "run"]
+EXPOSE 5000
+
+CMD ["flask", "run", "--host=0.0.0.0"]
