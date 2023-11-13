@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build from Dockerfile') {
+            steps {
+               docker build -t ping:latest .
+            }
+        }
+        stage('Run Black') {
+            steps {
+                black backend/
+            }
+        }
+
+        stage('Run Pylint') {
+            steps{
+                pylint --fail-under=7 --recursive true --ignore=venv backend
+            }
+        }
+    }
+    post {
+        success {
+            // Actions to take if the pipeline is successful
+            echo 'Build successful!'
+        }
+        failure {
+            // Actions to take if the pipeline fails
+            echo 'Build failed!'
+        }
+    }
+}
