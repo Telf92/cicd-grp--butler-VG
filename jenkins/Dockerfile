@@ -9,6 +9,9 @@ RUN add-apt-repository \
    $(lsb_release -cs) stable"
 RUN apt-get update && apt-get install -y docker-ce-cli
 RUN apt-get install -y python3
+RUN apt-get install -y python3-pip
+RUN apt-get install -y black
+RUN apt-get install -y pylint
 RUN groupadd docker || true
 RUN usermod -aG docker jenkins
 RUN mkdir /var/jenkins_home/.ssh/
