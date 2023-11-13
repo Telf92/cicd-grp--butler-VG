@@ -2,7 +2,7 @@ from pingurl.models import WatchedUrl, PingData
 
 watched_urls = {}
 pings = {}
-next_id = 0
+NEXT_ID = 0
 
 
 def add_watched_url(watched_url: WatchedUrl):
@@ -11,11 +11,11 @@ def add_watched_url(watched_url: WatchedUrl):
 
     if watched_url.url_id is not None:
         raise ValueError("url_id must be None")
-    global next_id
+    global NEXT_ID
 
-    watched_url.url_id = next_id
+    watched_url.url_id = NEXT_ID
 
-    next_id += 1
+    NEXT_ID += 1
 
     watched_urls[watched_url.url_id] = watched_url
 

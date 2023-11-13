@@ -5,7 +5,7 @@ from pingurl import scheduler as apscheduler
 
 jobs = {}
 
-spread_start = 1
+SPREAD_START = 1
 
 
 def add(watched_url: WatchedUrl):
@@ -19,9 +19,9 @@ def add(watched_url: WatchedUrl):
         # Spread the start of the jobs by 1 second for jobs which should have
         # already been started. These jobs are most likely being added at start
         # from the database.
-        global spread_start
-        start_delay = timedelta(seconds=spread_start)
-        spread_start += 1
+        global SPREAD_START
+        start_delay = timedelta(seconds=SPREAD_START)
+        SPREAD_START += 1
 
     job = apscheduler.add_job(
         func=send_ping_persist_data,

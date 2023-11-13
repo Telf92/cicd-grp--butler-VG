@@ -1,7 +1,7 @@
 from email.utils import parsedate_to_datetime
+from datetime import datetime
 from pingurl import persistance
 from pingurl.models import PingData, WatchedUrl
-from datetime import datetime
 import requests
 
 TIMEOUT = 10
@@ -48,5 +48,5 @@ def send_ping_persist_data(url_id: int):
     try:
         watched_url = persistance.get_watched_url(url_id)
         persistance.add_ping_data(send_ping(watched_url))
-    except persistance.WatchedUrlNotFound:
+    except persistance.WatchedUrlNotFoundError:
         pass

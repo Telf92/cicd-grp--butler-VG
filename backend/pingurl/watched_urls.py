@@ -1,11 +1,9 @@
 from datetime import datetime
 from flask import request, jsonify
 from werkzeug.exceptions import BadRequest
-from pingurl import app
+from pingurl import business, persistance, app
 from pingurl.models import WatchedUrl
 import validators
-from pingurl import persistance
-from pingurl import business
 
 MIN_PERIOD = 10
 
@@ -24,7 +22,7 @@ def add_watched_url():
             activate_at = datetime.fromisoformat(
                 data["activateAt"].replace("Z", "+00:00")
             )
-        except ValueError as e:
+        except ValueError:
             raise BadRequest("The 'activateAt' parameter must an ISO 8601 date-time.")
 
         force = data.get("force", False)
@@ -48,7 +46,7 @@ def add_watched_url():
         url = data["url"]
 
         if not isinstance(url, str) or not validators.url(url):
-            raise BadRequest(f"The 'url' parameter must be valid URL string.")
+            raise BadRequest("The 'url' parameter must be valid URL string.")
 
         try:
             watched_url = WatchedUrl(activate_at, force, period_sec, url)
