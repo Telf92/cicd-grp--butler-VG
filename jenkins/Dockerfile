@@ -14,6 +14,4 @@ RUN apt-get install -y black
 RUN apt-get install -y pylint
 RUN groupadd docker || true
 RUN usermod -aG docker jenkins
-RUN mkdir /var/jenkins_home/.ssh/
-RUN ssh-keyscan -t rsa github.com >> /var/jenkins_home/.ssh/known_hosts
 USER jenkins
