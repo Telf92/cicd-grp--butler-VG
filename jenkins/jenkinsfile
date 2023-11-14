@@ -20,13 +20,13 @@ pipeline {
                 }
         }
 
-        stage('Change to Python VENV') {
+        /*stage('Change to Python VENV') {
             steps {
-                //sh 'python3 -m venv backend/venv'"
-                //sh 'source backend/venv/bin/activate'"
-                //sh 'pip install -r backend/requirements.txt'
+                sh 'python3 -m venv backend/venv'"
+                sh 'source backend/venv/bin/activate'"
+                sh 'pip install -r backend/requirements.txt'
             }
-        }
+        }*/
 
         stage('Docker Container Testing') {
             steps {
