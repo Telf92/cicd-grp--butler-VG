@@ -8,12 +8,11 @@ RUN add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/debian \
    $(lsb_release -cs) stable"
 RUN apt-get update && apt-get install -y docker-ce-cli
-RUN apt-get install -y python3 python3-pip python3-venv
-RUN python3 -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
-RUN pip install black pylint pylint2junit
-
+RUN apt-get install -y python3
+RUN apt-get install -y python3-pip
+RUN apt-get install -y black
+RUN apt-get install -y pylint
+RUN pip3 install pylint2junit
 RUN groupadd docker || true
 RUN usermod -aG docker jenkins
-
 USER jenkins
