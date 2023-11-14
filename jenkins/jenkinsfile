@@ -31,6 +31,7 @@ pipeline {
         stage('Docker Container Testing') {
             steps {
                 sh 'chmod 766 jenkins/docker-test.sh'
+                sh 'pytest --collect-only'
                 sh 'jenkins/docker-test.sh'
             }
         }
