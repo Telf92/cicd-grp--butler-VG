@@ -30,7 +30,8 @@ pipeline {
 
         stage('Docker Container Testing') {
             steps {
-                sh
+                sh 'chmod 766 jenkins/docker-test.sh'
+                sh 'jenkins/docker-test.sh'
             }
         }
 
