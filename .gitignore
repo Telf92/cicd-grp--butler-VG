@@ -1,2 +1,5 @@
 # A way to easily ignore files
 ignored-*
+backend/venv/
+temp
+jenkins/.docker-compose.yml.swp
