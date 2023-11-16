@@ -28,25 +28,36 @@ pipeline {
                 script{
 
                     def container = docker.image('ping-url').inside('-p 5000:5000'){
-                        sh 'echo "Hello"'
-                        //container.inside {
-                        sh 'pytest ./backend/tests/test_api_request.py'
-                        //}
-                    }
-                
-                    /*try {
-                        sh 'echo "Hello"'
-                        container.inside {
+                        try {
+                            sh 'echo "Waiting for the server to start..."'
+
+                            // Poll the server until it responds successfully
+                            def maxRetries = 30
+                            def retryInterval = 3
+
+                            for (int i = 0; i < maxRetries; i++) {
+                                // Implement a command to check the server's health or availability
+                                def responseCode = sh(script: 'curl -s -o /dev/null -w "%{http_code}" http://localhost:5000', returnStatus: true)
+                                
+                                if (responseCode == 200) {
+                                    echo 'Server is ready!'
+                                    break
+                                }
+
+                                echo "Server not ready, retrying in ${retryInterval} seconds..."
+                                sleep retryInterval
+                            }
+
+                        
                             sh 'pytest ./backend/tests/test_api_request.py'
                         }
-                    } finally {
-                        // Clean up the container
-                        container.stop()
-                    }*/
+                        finally {
+                            // Clean up the container
+                            container.stop()
+                        }
+                    }   
                 }
             }
-
-
         }
 
         /*stage('Run API tests') {
