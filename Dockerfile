@@ -12,6 +12,3 @@ ENV FLASK_RUN_HOST=0.0.0.0
 EXPOSE 5000
 
 CMD ["flask", "run"]
-
-USER root
-RUN apt-get update && apt-get install -y curl jq
