@@ -49,7 +49,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    sh "pytest ./jenkins/tests/test_api_request.py"
+                    sh "pytest backend/tests/test_api_request.py"
                 }
             }
         }
