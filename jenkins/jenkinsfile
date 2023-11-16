@@ -25,28 +25,30 @@ pipeline {
 
         stage('Run Docker Container') {
             steps {
-                def container = docker.image('my-python-app').run('-p 5000:5000 --network=host')
-            
-                try {
-                    // Run stages inside the Docker container
-                    stage('Installing Pip requirements') {
-                        container.inside {
-                            sh '/usr/local/bin/python -m pip install --upgrade pip'
-                            sh 'pip install -r backend/requirements.txt'
+                script{
+                    def container = docker.image('my-python-app').run('-p 5000:5000 --network=host')
+                
+                    try {
+                        // Run stages inside the Docker container
+                        stage('Installing Pip requirements') {
+                            container.inside {
+                                sh '/usr/local/bin/python -m pip install --upgrade pip'
+                                sh 'pip install -r backend/requirements.txt'
+                            }
                         }
-                    }
 
-                    stage('Run API tests') {
-                        container.inside {
-                            sh 'pytest ./jenkins/tests/test_api_request.py'
+                        stage('Run API tests') {
+                            container.inside {
+                                sh 'pytest ./jenkins/tests/test_api_request.py'
+                            }
                         }
-                    }
 
-                    } finally {
-                        // Clean up the container
-                        container.stop()
-                    }
-            
+                        } finally {
+                            // Clean up the container
+                            container.stop()
+                        }
+                
+                }
             }
 
 
