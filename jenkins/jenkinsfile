@@ -48,14 +48,10 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                //script {
-                    // Run stages inside the Docker container
-                    //docker.image('ping-url').inside("${env.CONTAINER_ID}") {
-                        //sh '/usr/local/bin/python -m pip install --upgrade pip'
-                        //sh 'pip install -r backend/requirements.txt'
-                        sh 'pytest backend/tests/test_api_request.py --container-ip=${env.CONTAINER_IP}'
-                    //}
+                script {
+                    sh 'pytest backend/tests/test_api_request.py --container-ip=${env.CONTAINER_IP}'
                 }
+            }
         }
 
         stage('Stop Docker Container') {
