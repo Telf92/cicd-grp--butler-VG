@@ -35,17 +35,6 @@ pipeline {
             }
         }
 
-        stage('Obtain Container IP') {
-            steps {
-                script {
-                    // Use docker inspect to get the container's IP address
-                    env.CONTAINER_IP = sh(script: "docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${env.CONTAINER_ID}", returnStdout: true).trim()
-                    echo "Container IP: ${env.CONTAINER_IP}"
-                }
-            }
-        }
-
-
         stage('Run Tests') {
             steps {
                 script {
@@ -63,12 +52,6 @@ pipeline {
                 }
             }
         }
-
-        /*stage('Run API tests') {
-            steps{
-                sh 'pytest backend/tests/test_api_request.py'
-            }
-        }*/
 
     }
     post {
