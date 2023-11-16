@@ -29,6 +29,10 @@ pipeline {
             }
         }
 
+        stage('Sleep'){
+            sleep(10000)
+        }
+
     }
     post {
         success {
