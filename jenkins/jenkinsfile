@@ -2,12 +2,14 @@ pipeline {
     agent any
     stages {
         stage('Docker thing'){
-            agent dockerfile {
-                filename 'Dockerfile'
-                //dir 'build'
-                label 'pingURL'
-                //additionalBuildArgs  '--build-arg version=1.0.2'
-                //args '-v /tmp:/tmp'
+            agent {
+                dockerfile {
+                    filename 'Dockerfile'
+                    //dir 'build'
+                    label 'pingURL'
+                    //additionalBuildArgs  '--build-arg version=1.0.2'
+                    //args '-v /tmp:/tmp'
+                }
             }
 
             steps {
@@ -20,7 +22,7 @@ pipeline {
 
         //stage('Installing Pip requirements'){
         //}
-        
+
         stage('Run Black') {
             steps {
                 sh 'black backend/'
