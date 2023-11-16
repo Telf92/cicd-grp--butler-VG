@@ -29,7 +29,7 @@ pipeline {
                     def container = docker.image('ping-url').run('-p 5000:5000 --network=host')
                 
                     try {
-                        //sh 'echo "Hello'
+                        sh 'echo "Hello"'
                         //container.inside {
                             //sh 'pytest ./backend/tests/test_api_request.py'
                         //}
