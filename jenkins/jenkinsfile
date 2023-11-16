@@ -31,9 +31,9 @@ pipeline {
                 
                     try {
                         sh 'echo "Hello"'
-                        //container.inside {
-                            //sh 'pytest ./backend/tests/test_api_request.py'
-                        //}
+                        container.inside {
+                            sh 'pytest ./backend/tests/test_api_request.py'
+                        }
                     } finally {
                         // Clean up the container
                         container.stop()
