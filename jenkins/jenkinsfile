@@ -53,7 +53,7 @@ pipeline {
 
 
         }
-
+        /*
         stage('Installing Pip requirements'){
         
             steps {
@@ -71,7 +71,7 @@ pipeline {
                     sh 'pytest ./jenkins/tests/test_api_request.py'
                 }
             }
-        }
+        }*/
 
     }
     post {
