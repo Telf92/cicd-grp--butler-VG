@@ -1,7 +1,11 @@
+import argparse
 import requests
 
-API_WATCHED_URL = "http://127.0.0.1:5000/watched-urls"
-API_STATS_URL = "http://127.0.0.1:5000/stats"
+parser = argparse.ArgumentParser(description='Test API, takes ip address')
+ip = parser.parse_args()
+
+API_WATCHED_URL = f"http://{ip}:5000/watched-urls"
+API_STATS_URL = f"http://{ip}:5000/stats"
 
 def test_get_watched_url_none():
     assert requests.get(API_WATCHED_URL, timeout=20).json() == {'urlIds': []}
