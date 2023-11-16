@@ -46,7 +46,6 @@ pipeline {
                         sh 'pytest backend/tests/test_api_request.py'
                     //}
                 }
-            }
         }
 
         stage('Stop Docker Container') {
