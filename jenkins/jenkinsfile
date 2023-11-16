@@ -1,14 +1,14 @@
 pipeline {
     agent { dockerfile true}
     stages {
-        stage('Installing Pip requirements')
+        stage('Installing Pip requirements'){
             steps {
                 withEnv(["HOME=${env.WORKSPACE}"]) {
                     sh '/usr/local/bin/python -m pip install --upgrade pip'
                     sh 'pip install -r backend/requirements.txt'
                 }
             }
-        
+        }
         stage('Run Black') {
             steps {
                 sh 'black backend/'
