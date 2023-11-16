@@ -26,51 +26,42 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script{
+                    // Start the Docker container and save its ID
+                    def containerId = docker.image('ping-url').run('-p 5000:5000 -d').id
+                    echo "Docker container started with ID: ${containerId}"
+                    // Set the container ID as an environment variable for later stages
+                    env.CONTAINER_ID = containerId
+                }
+            }
+        }
 
-                    def container = docker.image('ping-url').inside('-p 5000:5000'){
-                        try {
-                            sh 'echo "Waiting for the server to start..."'
 
-                            // Poll the server until it responds successfully
-                            def maxRetries = 10
-                            def retryInterval = 3
-                            //def containerIpAddress = sh(script: 'docker inspect --format \'{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}\' ping-url', returnStdout: true).trim()
-                            def containerIpAddress = sh(script: 'docker inspect -f \'{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}\' ping-url', returnStdout: true).trim()
-                            for (int i = 0; i < maxRetries; i++) {
-                                // Use the container's IP address in the curl command
-                                def responseCode = sh(script: "curl -s -o /dev/null -w \"%{http_code}\" http://${containerIpAddress}:5000", returnStatus: true)
+        stage('Run Tests Inside Container') {
+            steps {
+                script {
+                    // Run stages inside the Docker container
+                    docker.image('ping-url').inside("${env.CONTAINER_ID}") {
+                        sh '/usr/local/bin/python -m pip install --upgrade pip'
+                        sh 'pip install -r backend/requirements.txt'
+                        sh 'pytest backedn/tests/test_api_request.py'
+                    }
+                }
+            }
+        }
 
-                                if (responseCode == 200) {
-                                    echo 'Server is ready!'
-                                    break
-                                }
-
-                                echo "Server not ready, retrying in ${retryInterval} seconds..."
-                                sleep retryInterval
-                            }
-
-                            // If the server is still not ready, you might want to handle this case or exit the pipeline
-                            if (responseCode != 200) {
-                                error 'Server did not become ready within the specified time.'
-                            }
-
-                        
-                            sh 'pytest ./backend/tests/test_api_request.py'
-                        }
-                        finally {
-                            // Clean up the container
-                            container.stop()
-                        }
-                    }   
+        stage('Stop Docker Container') {
+            steps {
+                script {
+                    // Stop and remove the Docker container at the end of the pipeline
+                    sh "docker stop ${env.CONTAINER_ID}"
+                    sh "docker rm ${env.CONTAINER_ID}"
                 }
             }
         }
 
         /*stage('Run API tests') {
             steps{
-                withEnv(["HOME=${env.WORKSPACE}"]) {
-                    sh 'pytest backend/tests/test_api_request.py'
-                }
+                sh 'pytest backend/tests/test_api_request.py'
             }
         }*/
 
