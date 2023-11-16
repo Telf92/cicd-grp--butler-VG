@@ -1,6 +1,7 @@
 pipeline {
     agent any
     stages {
+
         stage('Run Black') {
             steps {
                 sh 'black backend/'
@@ -12,27 +13,43 @@ pipeline {
                 sh 'pylint --fail-under=7 --recursive true --ignore=venv backend'
             }
         }
-
-        stage('Build from Dockerfile') {
-            steps {
-                sh 'docker build -t ping:latest .'
-               
+        
+        stage('Build Docker Image'){
+            steps{
+                script {
+                    // Build your Docker image
+                    docker.build('ping-url')
                 }
+            }
         }
 
-        /*stage('Change to Python VENV') {
+        stage('Run Docker Container') {
             steps {
-                sh 'python3 -m venv backend/venv'"
-                sh 'source backend/venv/bin/activate'"
-                sh 'pip install -r backend/requirements.txt'
+                script{
+                    // Start the Docker container and save its ID
+                    def containerId = docker.image('ping-url').run('--network=host -d').id
+                    echo "Docker container started with ID: ${containerId}"
+                    // Set the container ID as an environment variable for later stages
+                    env.CONTAINER_ID = containerId
+                }
             }
-        }*/
+        }
 
-        stage('Docker Container Testing') {
+        stage('Run Tests') {
             steps {
-                sh 'chmod 766 jenkins/docker-test.sh'
-                sh 'pytest --collect-only'
-                sh 'jenkins/docker-test.sh'
+                script {
+                    sh "pytest backend/tests/test_api_request.py"
+                }
+            }
+        }
+
+        stage('Stop Docker Container') {
+            steps {
+                script {
+                    // Stop and remove the Docker container at the end of the pipeline
+                    sh "docker stop ${env.CONTAINER_ID}"
+                    sh "docker rm ${env.CONTAINER_ID}"
+                }
             }
         }
 
