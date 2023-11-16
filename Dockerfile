@@ -14,4 +14,4 @@ EXPOSE 5000
 CMD ["flask", "run"]
 
 USER root
-RUN apt-get update && apt-get install -y curl
+RUN apt-get update && apt-get install -y curl jq
