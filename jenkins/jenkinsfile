@@ -34,12 +34,12 @@ pipeline {
                             // Poll the server until it responds successfully
                             def maxRetries = 10
                             def retryInterval = 3
-                            def containerIpAddress = sh(script: 'docker inspect --format \'{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}\' ping-url', returnStdout: true).trim()
-
+                            //def containerIpAddress = sh(script: 'docker inspect --format \'{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}\' ping-url', returnStdout: true).trim()
+                            def containerIpAddress = sh(script: 'docker inspect -f \'{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}\' ping-url', returnStdout: true).trim()
                             for (int i = 0; i < maxRetries; i++) {
                                 // Use the container's IP address in the curl command
-                                //def responseCode = sh(script: "curl -s -o /dev/null -w \"%{http_code}\" http://${containerIpAddress}:5000", returnStatus: true)
-                                def containerIpAddress = sh(script: 'docker inspect -f \'{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}\' ping-url', returnStdout: true).trim()
+                                def responseCode = sh(script: "curl -s -o /dev/null -w \"%{http_code}\" http://${containerIpAddress}:5000", returnStatus: true)
+
                                 if (responseCode == 200) {
                                     echo 'Server is ready!'
                                     break
