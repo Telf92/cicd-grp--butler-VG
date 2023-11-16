@@ -1,8 +1,13 @@
 import argparse
 import requests
 
-parser = argparse.ArgumentParser(description='Test API, takes ip address')
-ip = parser.parse_args()
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(description='Your script description')
+    parser.add_argument('--container-ip', help='Container IP address')
+    return parser.parse_args()
+
+ip = parse_arguments()
 
 API_WATCHED_URL = f"http://{ip}:5000/watched-urls"
 API_STATS_URL = f"http://{ip}:5000/stats"
