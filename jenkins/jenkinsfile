@@ -37,7 +37,7 @@ pipeline {
 
                             for (int i = 0; i < maxRetries; i++) {
                                 // Implement a command to check the server's health or availability
-                                def responseCode = sh(script: 'curl -s -o /dev/null -w "%{http_code}" http://localhost:5000', returnStatus: true)
+                                def responseCode = sh(script: 'curl -s -o /dev/null -w "%{http_code}" http://localhost:5000/stats', returnStatus: true)
                                 
                                 if (responseCode == 200) {
                                     echo 'Server is ready!'
