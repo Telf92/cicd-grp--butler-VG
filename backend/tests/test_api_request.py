@@ -1,17 +1,10 @@
-import argparse
+import os
 import requests
 
+container_ip = os.environ.get('CONTAINER_IP', 'default_value_if_not_set')
 
-def parse_arguments():
-    parser = argparse.ArgumentParser(description='Your script description')
-    parser.add_argument('--container-ip', help='Container IP address')
-    return parser.parse_args()
-
-# Parse command-line arguments
-args = parse_arguments()
-
-API_WATCHED_URL = f"http://{args.container_ip}:5000/watched-urls"
-API_STATS_URL = f"http://{args.container_ip}:5000/stats"
+API_WATCHED_URL = f"http://{container_ip}:5000/watched-urls"
+API_STATS_URL = f"http://{container_ip}:5000/stats"
 
 def test_get_watched_url_none():
     assert requests.get(API_WATCHED_URL, timeout=20).json() == {'urlIds': []}
