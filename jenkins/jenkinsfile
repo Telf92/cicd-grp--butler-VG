@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { dockerfile true}
     stages {
         stage('Installing Pip requirements'){
             steps {
@@ -21,10 +21,6 @@ pipeline {
             }
         }
 
-        stage('Docker stuff') {
-            agent { dockerfile true}
-        }
-
         stage('Run API tests') {
             steps{
                 withEnv(["HOME=${env.WORKSPACE}"]) {
@@ -32,21 +28,6 @@ pipeline {
                 }
             }
         }
-
-        /*stage('Build from Dockerfile') {
-            steps {
-                sh 'docker build -t ping:latest .'
-               
-                }
-        }*/
-
-        /*stage('Docker Container Testing') {
-            steps {
-                sh 'chmod 766 jenkins/docker-test.sh'
-                sh 'pytest --collect-only'
-                sh 'jenkins/docker-test.sh'
-            }
-        }*/
 
     }
     post {
