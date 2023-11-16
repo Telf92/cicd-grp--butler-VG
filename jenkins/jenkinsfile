@@ -32,13 +32,14 @@ pipeline {
                             sh 'echo "Waiting for the server to start..."'
 
                             // Poll the server until it responds successfully
-                            def maxRetries = 30
+                            def maxRetries = 10
                             def retryInterval = 3
+                            def containerIpAddress = sh(script: 'docker inspect --format \'{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}\' ping-url', returnStdout: true).trim()
 
                             for (int i = 0; i < maxRetries; i++) {
-                                // Implement a command to check the server's health or availability
-                                def responseCode = sh(script: 'curl -s -o /dev/null -w "%{http_code}" http://localhost:5000/stats', returnStatus: true)
-                                
+                                // Use the container's IP address in the curl command
+                                def responseCode = sh(script: "curl -s -o /dev/null -w \"%{http_code}\" http://${containerIpAddress}:5000", returnStatus: true)
+
                                 if (responseCode == 200) {
                                     echo 'Server is ready!'
                                     break
@@ -46,6 +47,11 @@ pipeline {
 
                                 echo "Server not ready, retrying in ${retryInterval} seconds..."
                                 sleep retryInterval
+                            }
+
+                            // If the server is still not ready, you might want to handle this case or exit the pipeline
+                            if (responseCode != 200) {
+                                error 'Server did not become ready within the specified time.'
                             }
 
                         
