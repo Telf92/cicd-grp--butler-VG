@@ -20,17 +20,18 @@ pipeline {
                 }
         }
 
-        stage('Change to Python VENV') {
+        /*stage('Change to Python VENV') {
             steps {
-                //sh 'python3 -m venv backend/venv'"
-                //sh 'source backend/venv/bin/activate'"
+                sh 'python3 -m venv backend/venv'"
+                sh 'source backend/venv/bin/activate'"
                 sh 'pip install -r backend/requirements.txt'
             }
-        }
+        }*/
 
         stage('Docker Container Testing') {
             steps {
                 sh 'chmod 766 jenkins/docker-test.sh'
+                sh 'pytest --collect-only'
                 sh 'jenkins/docker-test.sh'
             }
         }
