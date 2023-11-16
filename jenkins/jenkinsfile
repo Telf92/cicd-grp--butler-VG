@@ -27,7 +27,7 @@ pipeline {
             steps {
                 script{
 
-                    def container = docker.image('ping-url').run('-p 5000:5000', '--network=host')
+                    def container = docker.image('ping-url').run('-p 5000:5000')
                 
                     try {
                         sh 'echo "Hello"'
