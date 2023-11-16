@@ -2,13 +2,14 @@ pipeline {
     agent any
     stages {
         stage('Docker thing'){
-            agent { dockerfile true}
-            steps {
-                echo "Docker started"
+            agent dockerfile {
+                filename 'Dockerfile'
+                //dir 'build'
+                label 'pingURL'
+                //additionalBuildArgs  '--build-arg version=1.0.2'
+                //args '-v /tmp:/tmp'
             }
-        }
 
-        stage('Installing Pip requirements'){
             steps {
                 withEnv(["HOME=${env.WORKSPACE}"]) {
                     sh '/usr/local/bin/python -m pip install --upgrade pip'
@@ -16,6 +17,10 @@ pipeline {
                 }
             }
         }
+
+        //stage('Installing Pip requirements'){
+        //}
+        
         stage('Run Black') {
             steps {
                 sh 'black backend/'
