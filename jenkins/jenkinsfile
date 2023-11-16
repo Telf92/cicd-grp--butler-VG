@@ -30,16 +30,16 @@ pipeline {
                 
                     try {
                         // Run stages inside the Docker container
-                        stage('Installing Pip requirements') {
+                        /*stage('Installing Pip requirements') {
                             container.inside {
                                 sh '/usr/local/bin/python -m pip install --upgrade pip'
                                 sh 'pip install -r backend/requirements.txt'
                             }
-                        }
+                        }*/
 
                         stage('Run API tests') {
                             container.inside {
-                                sh 'pytest ./jenkins/tests/test_api_request.py'
+                                sh 'pytest ./tests/test_api_request.py'
                             }
                         }
 
