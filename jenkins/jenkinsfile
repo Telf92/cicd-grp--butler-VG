@@ -37,11 +37,11 @@ pipeline {
                             }
                         }*/
 
-                        stage('Run API tests') {
-                            container.inside {
-                                sh 'pytest ./tests/test_api_request.py'
-                            }
+                        //stage('Run API tests') {
+                        container.inside {
+                            sh 'pytest ./tests/test_api_request.py'
                         }
+                        //}
 
                         } finally {
                             // Clean up the container
