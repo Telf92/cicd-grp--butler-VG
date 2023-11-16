@@ -1,6 +1,13 @@
 pipeline {
-    agent { dockerfile true}
+    
     stages {
+        stage('Docker thing'){
+            agent { dockerfile true}
+            steps {
+                echo "Docker started"
+            }
+        }
+
         stage('Installing Pip requirements'){
             steps {
                 withEnv(["HOME=${env.WORKSPACE}"]) {
@@ -26,12 +33,6 @@ pipeline {
                 withEnv(["HOME=${env.WORKSPACE}"]) {
                     sh 'pytest ./jenkins/tests/test_api_request.py'
                 }
-            }
-        }
-
-        stage('Sleep'){
-            steps{
-                sh 'sleep 100000000'
             }
         }
 
