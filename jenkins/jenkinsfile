@@ -27,7 +27,7 @@ pipeline {
             steps {
                 script{
                     // Start the Docker container and save its ID
-                    def containerId = docker.image('ping-url').run('-p 5000:5000 -d').id
+                    def containerId = docker.image('ping-url').run('-p 5000:5000 --network=host -d').id
                     echo "Docker container started with ID: ${containerId}"
                     // Set the container ID as an environment variable for later stages
                     env.CONTAINER_ID = containerId
