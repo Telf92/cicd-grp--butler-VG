@@ -1,17 +1,6 @@
 pipeline {
-    agent {dockerfile true}
+    agent any
     stages {
-
-        stage('Installing Pip requirements'){
-        
-            steps {
-                withEnv(["HOME=${env.WORKSPACE}"]) {
-                    sh '/usr/local/bin/python -m pip install --upgrade pip'
-                    sh 'pip install -r backend/requirements.txt'
-                }
-            }
-        
-        }
 
         stage('Run Black') {
             steps {
@@ -23,6 +12,55 @@ pipeline {
             steps{
                 sh 'pylint --fail-under=7 --recursive true --ignore=venv backend'
             }
+        }
+        
+        stage('Build Docker Image'){
+            steps{
+                script {
+                    // Build your Docker image
+                    docker.build('pingURL')
+                }
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                def container = docker.image('my-python-app').run('-p 5000:5000 --network=host')
+            
+                try {
+                    // Run stages inside the Docker container
+                    stage('Installing Pip requirements') {
+                        container.inside {
+                            sh '/usr/local/bin/python -m pip install --upgrade pip'
+                            sh 'pip install -r backend/requirements.txt'
+                        }
+                    }
+
+                    stage('Run API tests') {
+                        container.inside {
+                            sh 'pytest ./jenkins/tests/test_api_request.py'
+                        }
+                    }
+
+                    } finally {
+                        // Clean up the container
+                        container.stop()
+                    }
+            
+            }
+
+
+        }
+
+        stage('Installing Pip requirements'){
+        
+            steps {
+                withEnv(["HOME=${env.WORKSPACE}"]) {
+                    sh '/usr/local/bin/python -m pip install --upgrade pip'
+                    sh 'pip install -r backend/requirements.txt'
+                }
+            }
+        
         }
 
         stage('Run API tests') {
