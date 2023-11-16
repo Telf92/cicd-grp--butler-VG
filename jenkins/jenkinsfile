@@ -30,7 +30,9 @@ pipeline {
         }
 
         stage('Sleep'){
-            sleep(10000)
+            step{
+                sleep(10000)
+            }
         }
 
     }
