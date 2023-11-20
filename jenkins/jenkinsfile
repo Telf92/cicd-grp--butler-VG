@@ -42,6 +42,7 @@ pipeline {
                     // Use docker inspect to get the container's IP address
                     env.CONTAINER_IP = sh(script: "docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${env.CONTAINER_ID}", returnStdout: true).trim()
                     echo "Container IP: ${env.CONTAINER_IP}"
+                    sh "sleep 3"
                 }
             }
         }
