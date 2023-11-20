@@ -12,7 +12,7 @@ API_URL = f"http://{container_ip}:5001/"
 
 
 def test_get_watched_url_none():
-    assert requests.get(f"{API_URL}watched-urls", timeout=20).json() == {"urlIds": []}
+    assert requests.get(f"{API_URL}/watched-urls", timeout=20).json() == {"urlIds": []}
 
 
 def test_set_watched_url():
