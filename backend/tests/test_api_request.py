@@ -39,3 +39,8 @@ def test_delete_url():
     assert requests.delete(f"{API_URL}/watched-urls/0", timeout=20).json() == {
         "message": "Removed watched url with id 0"
     }
+
+def test_delete_url():
+    assert requests.delete(f"{API_URL}/watched-urls/9999", timeout=20).json() == {
+    "error": "url_id not found"
+}
