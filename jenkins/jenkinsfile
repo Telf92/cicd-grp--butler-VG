@@ -39,6 +39,7 @@ pipeline {
             steps {
                 script {
                     sh "pytest backend/tests/test_api_request.py"
+                    sh "pytest backend/pingurl/test_*"
                 }
             }
         }
