@@ -13,9 +13,7 @@ echo "=============
   Run Black  
 =============" 
 
-echo "Skipping Black, will brick project"
-#black backend/
-
+black backend/
 
 echo "=============
   Run PyLint  
