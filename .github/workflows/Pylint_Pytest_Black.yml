@@ -1,4 +1,4 @@
-name: Pylint and Pytest pull requests
+name: Pylint, Black and Pytest pull requests
 
 on:
   pull_request:
@@ -19,7 +19,7 @@ jobs:
 
       - name: Format with black.
       - run: black backend/
-      
+
       - name: Lint with Pylint
         run: pylint --output-format=json . > pylint.json
              pylint --fail-under=7 --recursive true .
