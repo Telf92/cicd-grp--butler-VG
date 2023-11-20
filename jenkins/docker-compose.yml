@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   jenkins:
-    network_mode: host
+    network_mode: jenkins_default
     build:
       context: .
       dockerfile: Dockerfile
