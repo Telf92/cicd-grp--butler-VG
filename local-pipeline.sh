@@ -39,6 +39,7 @@ echo "=============
 ============="
 
 pytest backend/tests/test_api_request.py
+pytest backend/pingurl/test_*
 
 echo "=============
   Stop and Remove Containers  
