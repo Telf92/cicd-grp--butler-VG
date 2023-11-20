@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from pingurl.models import PingData
 
+
 def test_ping_data():
     pinged_at = datetime.now()
     response_time_sec = timedelta(seconds=1)

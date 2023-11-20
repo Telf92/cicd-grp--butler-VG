@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from pingurl.models import WatchedUrl, PingData
 from pingurl.persistance import add_watched_url, add_ping_data, get_url_data
 
+
 def test_ping_data_creation_and_retrieval():
     # Create and add WatchedUrl
     activate_at = datetime.now()
@@ -20,6 +21,6 @@ def test_ping_data_creation_and_retrieval():
 
     # Retrieve and assert
     url_data = get_url_data(url_id)
-    assert len(url_data['pings']) == 1
-    assert url_data['pings'][0]['statusCode'] == status_code
-    assert url_data['pings'][0]['responseTimeSec'] == response_time_sec.total_seconds()
+    assert len(url_data["pings"]) == 1
+    assert url_data["pings"][0]["statusCode"] == status_code
+    assert url_data["pings"][0]["responseTimeSec"] == response_time_sec.total_seconds()

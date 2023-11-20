@@ -4,7 +4,8 @@ from pingurl.models import WatchedUrl
 from pingurl.ping import send_ping
 import requests
 
-@patch('pingurl.ping.requests.get')
+
+@patch("pingurl.ping.requests.get")
 def test_send_ping(mock_get):
     # Set up the mock response
     mock_response = MagicMock()

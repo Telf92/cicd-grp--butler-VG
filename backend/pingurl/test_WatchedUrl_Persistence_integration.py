@@ -2,6 +2,7 @@ from datetime import datetime
 from pingurl.models import WatchedUrl
 from pingurl.persistance import add_watched_url, get_watched_url, delete_watched_url
 
+
 def test_watched_url_and_persistence():
     activate_at = datetime.now()
     force = True
@@ -20,4 +21,3 @@ def test_watched_url_and_persistence():
     assert retrieved_watched_url.period_sec == period_sec
     assert retrieved_watched_url.force == force
     assert retrieved_watched_url.activate_at == activate_at
-
