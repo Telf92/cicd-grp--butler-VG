@@ -32,6 +32,7 @@ pipeline {
                     echo "Docker container started with ID: ${containerId}"
                     // Set the container ID as an environment variable for later stages
                     env.CONTAINER_ID = containerId
+                    sh "sleep 2"
                 }
             }
         }
@@ -39,7 +40,6 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    echo "API_URL: ${env.API_URL}"
                     sh "pytest backend/tests/test_api_request.py"
                     sh "pytest backend/pingurl/test_*"
                 }

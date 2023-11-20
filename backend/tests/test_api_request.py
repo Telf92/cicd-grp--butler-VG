@@ -1,7 +1,6 @@
-import os
 import requests
 
-API_URL = f"http://localhost:5001"
+API_URL = "http://localhost:5001"
 
 # Just made one universal constant that then gets added onto when needed
 #API_WATCHED_URL = "http://localhost:5000/watched-urls"
