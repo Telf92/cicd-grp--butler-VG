@@ -19,6 +19,7 @@ jobs:
 
       - name: Lint with Pylint
         run: pylint --output-format=json . > pylint.json
+             pylint --fail-under=7 --recursive true .
 
       - name: Upload Pylint results
         uses: actions/upload-artifact@v3
