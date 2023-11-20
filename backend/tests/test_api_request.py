@@ -1,10 +1,7 @@
 import os
 import requests
 
-container_ip = os.environ.get('CONTAINER_IP', 'default_value_if_not_set')
-
-API_URL = os.environ.get('API_URL', 'default_value_if_not_set')
-#API_URL = f"http://{container_ip}:5001"
+API_URL = f"http://localhost:5001"
 
 # Just made one universal constant that then gets added onto when needed
 #API_WATCHED_URL = "http://localhost:5000/watched-urls"
