@@ -1,6 +1,9 @@
+import os
 import requests
 
-API_WATCHED_URL = "http://localhost:5000/watched-urls"
+container_ip = os.environ.get('CONTAINER_IP', 'default_value_if_not_set')
+API_WATCHED_URL = f"http://{container_ip}:5000/watched-urls"
+#API_WATCHED_URL = "http://localhost:5000/watched-urls"
 API_STATS_URL = "http://localhost:5000/stats"
 
 API_DELETE_ULR = "http://localhost:5000/watched-urls/0"
