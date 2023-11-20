@@ -35,12 +35,9 @@ pipeline {
             }
         }
 
-        stage('Create VENV and run Tests') {
+        stage('Run Tests') {
             steps {
                 script {
-                    //sh "python3 -m venv backend/venv"
-                    //sh "source backend/venv/bin/activate"
-                    //sh "pip install -r backend/requirements.txt"
                     sh "pytest backend/tests/test_api_request.py"
                     sh "pytest backend/pingurl/test_*"
                 }
