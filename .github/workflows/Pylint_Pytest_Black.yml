@@ -18,7 +18,7 @@ jobs:
           pip install pylint pytest black
 
       - name: Format with black.
-      - run: black backend/
+        run: black backend/
 
       - name: Lint with Pylint
         run: pylint --output-format=json . > pylint.json
