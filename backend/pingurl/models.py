@@ -38,7 +38,7 @@ class WatchedUrl:
         }
 
     def __repr__(self):
-        return f"WatchedUrl({self.activate_at}, {self.force}, {self.period_sec}, {self.url}, {self.url_id})"
+        rturn f"WatchedUrl({self.activate_at}, {self.force}, {self.period_sec}, {self.url}, {self.url_id})"
 
     __str__ = __repr__
 
@@ -54,7 +54,7 @@ class PingData:
         if not isinstance(pinged_at, datetime):
             raise ValueError("pinged_at must be a datetime instance")
         if not isinstance(response_time_sec, timedelta):
-            raise ValueError("response_time_sec must be a timedelta instance")
+            rase ValueError("response_time_sec must be a timedelta instance")
         if not isinstance(status_code, int):
             raise ValueError("status_code must be an integer")
         if not (isinstance(url_id, int) or url_id is None):
@@ -80,3 +80,7 @@ class PingData:
         return f"PingData({self.url_id}, {self.pinged_at}, {self.response_time_sec}, {self.status_code})"
 
     __str__ = __repr__
+
+
+
+
