@@ -6,9 +6,6 @@ next_id = 0
 
 
 def add_watched_url(watched_url: WatchedUrl):
-    if not isinstance(watched_url, WatchedUrl):
-        raise ValueError("watched_url must be a WatchedUrl instance")
-
     if watched_url.url_id is not None:
         raise ValueError("url_id must be None")
     global next_id
@@ -66,9 +63,6 @@ def get_url_ids():
 
 
 def add_ping_data(ping_data: PingData):
-    if not isinstance(ping_data, PingData):
-        raise ValueError("ping_data must be a PingData instance")
-
     if not ping_data.url_id in watched_urls:
         raise WatchedUrlNotFoundError("Watched URL with the given urlId was not found.")
 

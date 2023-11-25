@@ -1,29 +1,25 @@
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 from pingurl.models import PingData
 from pingurl.business import add_watched_url
 from datetime import datetime, timedelta
 from pingurl.models import WatchedUrl
-import PingData
-
 
 @patch("pingurl.ping.send_ping")
-@patch("pingurl.persistance.add_watched_url")
+@patch("pingurl.persistance.add_watched_url", return_value=5)
 @patch("pingurl.persistance.add_ping_data")
 @patch("pingurl.schedule.add")
-def test_add_watched_url_with_mocked_ping(
-    mock_ping, mock_add_watched_url, mock_add_ping_data, schedule_add
+def test_add_watched_url(
+    send_ping, persist_add_url, persist_add_ping, sched_add
 ):
     time = datetime.now()
-    # Set up the mock response
-    mock_ping_response = PingData(
+
+    ping_data = PingData(
         time,
         timedelta(seconds=1),
         200,
     )
 
-    mock_ping.return_value = mock_ping_response
-    mock_add_watched_url_respond = 5
-    mock_add_watched_url.return_value = mock_add_watched_url_respond
+    send_ping.return_value = ping_data
 
     watched_url = WatchedUrl(
         time,
@@ -31,5 +27,11 @@ def test_add_watched_url_with_mocked_ping(
         1,
         "https://example.com",
     )
-    #    mock_ping.return_value = mock_response
-    assert mock_add_watched_url_respond == add_watched_url(watched_url)
+
+    assert add_watched_url(watched_url) == 5
+
+    # assert that the mocks have been called
+    send_ping.assert_called_once_with(watched_url)
+    # persist_add_url.assert_called_once_with(watched_url)
+    # persist_add_ping.assert_called_once_with(ping_data)
+    sched_add.assert_called_once_with(watched_url)
