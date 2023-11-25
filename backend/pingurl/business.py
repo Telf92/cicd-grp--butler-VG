@@ -2,6 +2,7 @@ from pingurl import schedule
 from pingurl import persistance
 from pingurl import ping
 
+
 def add_watched_url(watched_url):
     ping_data = ping.send_ping(watched_url)
 
